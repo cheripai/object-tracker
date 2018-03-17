@@ -24,15 +24,21 @@ from collections import namedtuple, OrderedDict
 flags = tf.app.flags
 flags.DEFINE_string('csv_input', '', 'Path to the CSV input')
 flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
+flags.DEFINE_string('label_map_file', '', 'Path to label map file')
 FLAGS = flags.FLAGS
 
 
-# TO-DO replace this with label map
-def class_text_to_int(row_label):
-    if row_label == 'chips':
-        return 1
-    else:
-        None
+def parse_label_map_file(fname):
+    names = []
+    ids = []
+    with open(fname) as f:
+        lines = f.readlines()
+    for line in lines:
+        if "id:" in line:
+            ids.append(int(line.split("id:")[-1].strip()))
+        elif "name:" in line:
+            names.append(line.split("name:")[-1].strip().replace("'", ""))
+    return {name:id for (name, id) in zip(names, ids)}
 
 
 def split(df, group):
@@ -41,7 +47,7 @@ def split(df, group):
     return [data(filename, gb.get_group(x)) for filename, x in zip(gb.groups.keys(), gb.groups)]
 
 
-def create_tf_example(group, path):
+def create_tf_example(group, path, label_map):
     with tf.gfile.GFile(os.path.join(path, '{}'.format(group.filename)), 'rb') as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
@@ -63,7 +69,7 @@ def create_tf_example(group, path):
         ymins.append(row['ymin'] / height)
         ymaxs.append(row['ymax'] / height)
         classes_text.append(row['class'].encode('utf8'))
-        classes.append(class_text_to_int(row['class']))
+        classes.append(label_map[row['class']])
 
     tf_example = tf.train.Example(features=tf.train.Features(feature={
         'image/height': dataset_util.int64_feature(height),
@@ -87,8 +93,9 @@ def main(_):
     path = os.path.join(os.getcwd(), "/".join(FLAGS.csv_input.split("/")[:-1]))
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')
+    label_map = parse_label_map_file(FLAGS.label_map_file)
     for group in grouped:
-        tf_example = create_tf_example(group, path)
+        tf_example = create_tf_example(group, path, label_map)
         writer.write(tf_example.SerializeToString())
 
     writer.close()
