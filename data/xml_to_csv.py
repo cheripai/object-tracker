@@ -33,7 +33,7 @@ def xml_to_csv(path):
 
 def main():
     path = sys.argv[1]
-    image_paths = [os.path.join(path, fname) for fname in os.listdir(path) if fname.endswith('JPEG')]
+    image_paths = [os.path.join(path, fname) for fname in os.listdir(path) if fname.endswith('xml')]
     shuffle(image_paths)
     split = int(len(image_paths) * VALID_PROP)
     image_sets = {'train': image_paths[split:], 'valid': image_paths[:split]}
@@ -44,10 +44,10 @@ def main():
             os.mkdir(set_path)
         for image_path in image_sets[directory]:
             fname = os.path.basename(image_path).split('.')[0]
-            shutil.copyfile(image_path, os.path.join(set_path, fname+'.JPEG'))
-            shutil.copyfile(image_path.replace('.JPEG', '.xml'), os.path.join(set_path, fname+'.xml'))
+            shutil.copyfile(image_path, os.path.join(set_path, fname+'.xml'))
+            shutil.copyfile(image_path.replace('.xml', '.JPEG'), os.path.join(set_path, fname+'.JPEG'))
         xml_df = xml_to_csv(set_path)
-        xml_df.to_csv('{}/{}.csv'.format(path, directory), index=None)
+        xml_df.to_csv('{}/{}.csv'.format(set_path, directory), index=None)
     print('Successfully converted xml to csv.')
 
 main()
