@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import os
 import io
 import pandas as pd
+import random
 import tensorflow as tf
 
 from PIL import Image
@@ -94,9 +95,10 @@ def main(_):
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')
     label_map = parse_label_map_file(FLAGS.label_map_file)
-    for group in grouped:
-        tf_example = create_tf_example(group, path, label_map)
-        writer.write(tf_example.SerializeToString())
+    examples_list = [create_tf_example(group, path, label_map) for group in grouped]
+    random.shuffle(examples_list)
+    for example in examples_list:
+        writer.write(example.SerializeToString())
 
     writer.close()
     output_path = os.path.join(os.getcwd(), FLAGS.output_path)
