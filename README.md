@@ -47,4 +47,9 @@ The classes in the dataset are as follows:
 - tomato
 
 Balancing was performed so that each object class had roughly the same number of images (~500).
-Once the dataset was created, I fine-tuned the faster_rcnn_resnet50 model available from the Object Detection API's [model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md).
+Once the dataset was created, I fine-tuned the faster_rcnn_resnet50 model available from the Object Detection API's [model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Multiple models were tried, but faster_rcnn_resnet50 was chosen due to a good balance between speed and detection performance.
+
+# Next Steps
+- Adding images of the classes that were not present in the dataset
+- Occlusion handling: Since the algorithm is able to detect what objects are present in the image, logic can be added so that certain objects can be inserted into another. For example, we know that a suitcase or a backpack are "carrier" objects. As such, if an object's bounding box intersects with a carrier object's bounding box, we can assume that it is being carried.
+- A hybrid method between tracking and detection. For example, the detection algorithm can be run every N frames to spawn the initial bounding boxes for the tracking algorithm. 
