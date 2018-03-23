@@ -12,20 +12,17 @@
   - Cons
     - Not robust to occlusion
     - Not robust to changes in orientation
-    - Difficult to use
 - #### FasterRCNN
   - Pros
     - Understands what the object is supposed to look like
     - Robust to changes in orientation
-    - Robust to partial occlusion
   - Cons
-    - Difficult to use
     - Not robust to occlusion
     - Requires training data for each object
-    - Slow performance
+    - Slower performance
     - Does not take advantage of temporal information
     
-Since FasterRCNN was robust to partial occlusion and changes in orientation, it was found to be the optimal method out of all of the ones that were tried. 
+Since FasterRCNN was robust to changes in orientation and understood what objects were being displayed, it was found to be the optimal method out of all of the ones that were tried.
 
 # Approach
 This project took advantage of the [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection).
