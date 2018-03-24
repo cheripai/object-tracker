@@ -45,7 +45,7 @@ The classes in the dataset are as follows:
 - tomato
 
 Balancing was performed so that each object class had roughly the same number of images (~500).
-Once the dataset was created, I fine-tuned the faster_rcnn_resnet50 model available from the Object Detection API's [model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Multiple models were tried, but faster_rcnn_resnet50 was chosen due to a good balance between speed and detection performance.
+Once the dataset was created, I fine-tuned the faster_rcnn_resnet50 model available from the Object Detection API's [model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Multiple models were tried, but faster_rcnn_resnet50 was chosen due to a good balance between speed and detection performance. With the approriate hardware, faster_rcnn_resnet50 can run at approximately 11 frames per second. Since my hardware is not as powerful, I ran detection on every 4th frame.
 
 # Next Steps
 - Adding images of the classes that were not present in the dataset
