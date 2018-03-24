@@ -1,18 +1,18 @@
 # Approaches Attempted
-- #### KCF (All OpenCV trackers)
+1. #### KCF
   - Pros
     - Fast performance
     - Ease of use
   - Cons
     - Not robust to occlusion
     - Not robust to changes in orientation
-- #### SiamFC
+2. #### SiamFC
   - Pros
     - Good tracking
   - Cons
     - Not robust to occlusion
     - Not robust to changes in orientation
-- #### FasterRCNN
+3. #### FasterRCNN
   - Pros
     - Understands what the object is supposed to look like
     - Robust to changes in orientation
@@ -23,7 +23,7 @@
     - Does not take advantage of temporal information
     
 # Tracking Approach
-KCF was found to be sufficient for test2 when given initial bounding boxes. KCF was preferred over detection as it was more stable (didn't lose track of objects throughout frames) and much faster.
+KCF was found to be sufficient for test 2 when given initial bounding boxes. KCF was preferred over detection as it was more stable (didn't lose track of objects throughout frames) and much faster.
 
 # Detection Approach
 This approach took advantage of the [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection).
@@ -46,6 +46,23 @@ The classes in the dataset are as follows:
 
 Balancing was performed so that each object class had roughly the same number of images (~500).
 Once the dataset was created, I fine-tuned the faster_rcnn_resnet50 model available from the Object Detection API's [model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Multiple models were tried, but faster_rcnn_resnet50 was chosen due to a good balance between speed and detection performance. With the approriate hardware, faster_rcnn_resnet50 can process a single frame in 89ms (~11 frames per second). Since my hardware is not as powerful, I ran detection on every 4th frame to process the entire video more quickly.
+
+# Results
+#### Test 1(https://www.youtube.com/watch?v=88B7sntgrB8)
+The detector is able to detect the backpack and suitcase well and occassionally the shoes and bags.
+It does incorrectly predict the agent's torso as a backpack frequently likely due to the prevelance of torsos in the training data of the backpack class.
+The white object and black object near the back of the table were not detected as they were not part of the dataset.
+
+
+#### [Test 2](https://www.youtube.com/watch?v=AcncBLv2fQs)
+The KCF tracker is able to follow both the bowl and the tomato quite well when given the initial bounding boxes.
+Other objects in the video were not added as they were static.
+
+#### [Test 3](https://www.youtube.com/watch?v=_DbDzTgfPkk)
+The detector is able to follow the soda bottles reasonably well and occasionally the jug and bag.
+Since shoes were added to the dataset for test 1, the shoes of the agents are also unnecessarily detected.
+The box and bag of chips are not detected as they were not part of the training set.
+
 
 # Next Steps
 - Adding images of the classes that were not present in the dataset
