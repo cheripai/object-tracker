@@ -50,3 +50,6 @@ Once the dataset was created, I fine-tuned the faster_rcnn_resnet50 model availa
 - Adding images of the classes that were not present in the dataset
 - Occlusion handling: Since the algorithm is able to detect what objects are present in the image, logic can be added so that certain objects can be inserted into another. For example, we know that a suitcase or a backpack are "carrier" objects. As such, if an object's bounding box intersects with a carrier object's bounding box, we can assume that it is being carried.
 - A hybrid method between tracking and detection. For example, the detection algorithm can be run every N frames to spawn the initial bounding boxes for the tracking algorithm. 
+
+# Install
+- Download [weights](https://drive.google.com/file/d/17_avhejr77uZOcxPkohk09YNKZ1yX45m/view?usp=sharing) and place in ```weights``` directory
