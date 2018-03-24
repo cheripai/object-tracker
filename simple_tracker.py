@@ -1,3 +1,4 @@
+# Source: https://github.com/opencv/opencv_contrib/blob/master/modules/tracking/samples/multitracker.py
 import numpy as np
 import cv2
 import sys
