@@ -69,4 +69,4 @@ cd slim && python setup.py sdist
 
 # Running
 - ```python simple_tracker.py /path/to/test2.mp4```
-- ```python detector.py /path/to/images/of/test.mp4 /path/to/output/directory
+- ```python detector.py /path/to/images/of/test.mp4 /path/to/output/directory```
