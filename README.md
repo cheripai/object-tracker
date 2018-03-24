@@ -22,10 +22,11 @@
     - Slower performance
     - Does not take advantage of temporal information
     
-Since FasterRCNN was robust to changes in orientation and understood what objects were being displayed, it was found to be the optimal method out of all of the ones that were tried.
+# Tracking Approach
+KCF was found to be sufficient for test2 when given initial bounding boxes. KCF was preferred over detection as it was more stable (didn't lose track of objects throughout frames) and much faster.
 
-# Approach
-This project took advantage of the [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection).
+# Detection Approach
+This approach took advantage of the [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection).
 
 With just the pre-trained model, we see reasonable results on detecting the objects in the image.
 ![pre-trained model result](https://raw.githubusercontent.com/cheripai/object-tracker/master/doc/stock_detector_api.png)
@@ -51,5 +52,22 @@ Once the dataset was created, I fine-tuned the faster_rcnn_resnet50 model availa
 - Occlusion handling: Since the algorithm is able to detect what objects are present in the image, logic can be added so that certain objects can be inserted into another. For example, we know that a suitcase or a backpack are "carrier" objects. As such, if an object's bounding box intersects with a carrier object's bounding box, we can assume that it is being carried.
 - A hybrid method between tracking and detection. For example, the detection algorithm can be run every N frames to spawn the initial bounding boxes for the tracking algorithm. 
 
+# Requirements
+- numpy
+- opencv-contrib-python
+- opencv-python
+- Pillow
+- scipy
+
 # Install
-- Download [weights](https://drive.google.com/file/d/17_avhejr77uZOcxPkohk09YNKZ1yX45m/view?usp=sharing) and place in ```weights``` directory
+- Follow object detection [installation guide](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md)
+ ```bash 
+# From tensorflow/models/research/
+python setup.py sdist
+cd slim && python setup.py sdist
+```
+- Download [weights](https://drive.google.com/file/d/17_avhejr77uZOcxPkohk09YNKZ1yX45m/view?usp=sharing) and place in ```weights/``` directory
+
+# Running
+- ```python simple_tracker.py /path/to/test2.mp4```
+- ```python detector.py /path/to/images/of/test.mp4 /path/to/output/directory```
