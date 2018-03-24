@@ -48,7 +48,7 @@ Balancing was performed so that each object class had roughly the same number of
 Once the dataset was created, I fine-tuned the faster_rcnn_resnet50 model available from the Object Detection API's [model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). Multiple models were tried, but faster_rcnn_resnet50 was chosen due to a good balance between speed and detection performance. With the approriate hardware, faster_rcnn_resnet50 can process a single frame in 89ms (~11 frames per second). Since my hardware is not as powerful, I ran detection on every 4th frame to process the entire video more quickly.
 
 # Results
-#### Test 1(https://www.youtube.com/watch?v=88B7sntgrB8)
+#### [Test 1](https://www.youtube.com/watch?v=88B7sntgrB8)
 The detector is able to detect the backpack and suitcase well and occassionally the shoes and bags.
 It does incorrectly predict the agent's torso as a backpack frequently likely due to the prevelance of torsos in the training data of the backpack class.
 The white object and black object near the back of the table were not detected as they were not part of the dataset.
