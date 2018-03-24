@@ -2,6 +2,7 @@ import os
 import sys
 from random import shuffle
 
+
 def get_category_file_dict(csv_path):
     category_file = {}
     with open(csv_path) as f:
@@ -10,6 +11,8 @@ def get_category_file_dict(csv_path):
             line = line.strip()
             fname, width, height, category, xmin, ymin, xmax, ymax = line.split(",")
             file_id = os.path.basename(fname)
+            if category in ignore:
+                continue
             if category in category_file:
                 if file_id in category_file[category]:
                     category_file[category][file_id].append(line)
@@ -22,10 +25,10 @@ def get_category_file_dict(csv_path):
 if __name__ == "__main__":
     category_file, header = get_category_file_dict(sys.argv[1])
 
-    min_images = min([len(category_file[category]) for category in category_file.keys()])
-    min_images = int(min_images)
+    images_per_category = sorted([(len(category_file[category]), category) for category in category_file.keys()], reverse=True)
+    min_images = images_per_category[-1][0]
 
-    for category in category_file.keys():
+    for _, category in images_per_category:
         if len(category_file[category]) > min_images:
             fnames = list(category_file[category].keys())
             shuffle(fnames)
@@ -43,7 +46,6 @@ if __name__ == "__main__":
                 annotations.append(annotation)
         print(category, len(category_file[category]), num_annotations)
 
-    shuffle(annotations)
     annotations.insert(0, header)
     
     with open(sys.argv[2], "w+") as f:
