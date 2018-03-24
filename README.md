@@ -22,10 +22,11 @@
     - Slower performance
     - Does not take advantage of temporal information
     
-Since FasterRCNN was robust to changes in orientation and understood what objects were being displayed, it was found to be the optimal method out of all of the ones that were tried.
+# Tracking Approach
+KCF was found to be sufficient for test2 when given initial bounding boxes. KCF was preferred over detection as it was more stable (didn't lose track of objects throughout frames) and much faster.
 
-# Approach
-This project took advantage of the [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection).
+# Detection Approach
+This approach took advantage of the [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/master/research/object_detection).
 
 With just the pre-trained model, we see reasonable results on detecting the objects in the image.
 ![pre-trained model result](https://raw.githubusercontent.com/cheripai/object-tracker/master/doc/stock_detector_api.png)
